@@ -32,6 +32,6 @@
   "scripts": {
     "start": "webpack serve --mode development",
     "build": "webpack --mode production",
-    "fullInstall": "npm install && node server.js"
+    "go_wouter": "npm install && node server.js"
   }
 }
