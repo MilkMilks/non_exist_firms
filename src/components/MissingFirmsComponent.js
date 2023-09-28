@@ -129,7 +129,19 @@ const MissingFirmsComponent = () => {
 
     fetchData();
   }, []);
-
+  const handleSearch = (searchQuery) => {
+    // console.log("missingFirms1: ", missingFirms[0]);
+    const foundIndex = missingFirms.findIndex(
+      (firm) => firm.ticker.toLowerCase() === searchQuery.toLowerCase()
+    );
+    if (foundIndex !== -1) {
+      saveObservation(); // Save the existing observation before moving
+      setCurrentFirmIndex(foundIndex);
+      updateFormData();
+    } else {
+      console.log("Firm not found.");
+    }
+  };
   useEffect(() => {
     if (missingFirms.length > 0) {
       const currentFirm = missingFirms[currentFirmIndex];
@@ -262,6 +274,11 @@ const MissingFirmsComponent = () => {
       >
         Next Firm
       </Button>
+      <input
+        type="text"
+        placeholder="Search for a firm"
+        onChange={(e) => handleSearch(e.target.value)}
+      />
       {missingFirms.length > 0 && (
         <ListGroup className="mt-3">
           {missingFirms.map((firm, index) => {
