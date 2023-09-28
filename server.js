@@ -26,9 +26,11 @@ app.post("/save_data", (req, res) => {
 
   // Create a map of existing data by CIK
   const existingMap = existingLines.reduce((map, line) => {
-    const columns = line.split("\t");
-    const cik = columns[2];
-    map[cik] = line;
+    if (line !== tsvHeader) {
+      const columns = line.split("\t");
+      const cik = columns[2];
+      map[cik] = line;
+    }
     return map;
   }, {});
 
