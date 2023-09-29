@@ -34,7 +34,7 @@ app.post("/save_data", (req, res) => {
     return Object.values(row).join("\t");
   });
   const tsv = [tsvHeader, ...tsvRows].join("\n");
-  fs.writeFileSync(path.join(__dirname, "observations.tsv"), tsv);
+  fs.writeFileSync(path.join(__dirname, "/dist/observations.tsv"), tsv);
 });
 
 // Start the server

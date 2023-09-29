@@ -89,75 +89,14 @@ const MissingFirmsComponent = () => {
     )}`;
     window.open(googleSearchUrl, "_blank");
   };
-
-  const handleSecEdgarQuery = (ticker, title) => {
-    const secEdgarUrl = `https://www.sec.gov/edgar/search/?CIK=${ticker}`;
-    window.open(secEdgarUrl, "_blank");
-  };
-
-  useEffect(() => {
-    if (!firstLoad) {
-      fetch("./data.tsv")
-        .then((response) => response.text())
-        .then((data) => {
-          const lines = data.split("\n");
-          const headers = lines[0].split("\t");
-          const newObservations = lines.slice(1).map((line) => {
-            const parts = line.split("\t");
-            const obj = {};
-            headers.forEach((header, index) => {
-              obj[header] = parts[index];
-            });
-            return obj;
-          });
-          setObservations(newObservations);
-          setFirstLoad(true);
-        })
-        .catch((error) => console.error("Error fetching TSV:", error));
+  const handleManualIndex = (ticker) => {
+    console.log("ONSERVATIONS ", observations);
+    console.log;
+    const foundIndex = observations.findIndex((obs) => obs.ticker === ticker);
+    if (foundIndex !== -1) {
+      setCurrentObservationIndex(foundIndex);
     }
-  }, [firstLoad]);
-
-  const saveObservation = () => {
-    const currentFirm = missingFirms[currentFirmIndex];
-    console.log("old observations: ", observations);
-    let newObservations = [...observations];
-    console.log("new observations: ", newObservations);
-    const existingIndex = newObservations.findIndex(
-      (obs) => obs.cik === currentFirm.cik
-    );
-
-    if (existingIndex > -1) {
-      newObservations[existingIndex] = formData;
-    } else {
-      newObservations.push(formData);
-    }
-
-    // Deduplicate based on cik
-    const uniqueObservations = Object.values(
-      newObservations.reduce((acc, curr) => {
-        acc[curr.cik] = curr;
-        return acc;
-      }, {})
-    );
-
-    setObservations(uniqueObservations);
-    return uniqueObservations;
   };
-
-  const handleNextFirm = () => {
-    saveObservation();
-    setCurrentFirmIndex((prevIndex) => (prevIndex + 1) % missingFirms.length);
-    updateFormData(); // Add this line
-  };
-
-  const handlePreviousFirm = () => {
-    saveObservation();
-    setCurrentFirmIndex(
-      (prevIndex) => (prevIndex - 1 + missingFirms.length) % missingFirms.length
-    );
-    updateFormData(); // Add this line
-  };
-
   return (
     <Container className="my-5 text-center">
       <h1 className="mt-3">Missing Firms</h1>
@@ -185,7 +124,12 @@ const MissingFirmsComponent = () => {
             </Button>
           </ListGroupItem>
         </ListGroup>
-      )}
+      )}{" "}
+      <input
+        type="text"
+        placeholder="Search by ticker"
+        onChange={(e) => handleManualIndex(e.target.value)}
+      />
       <Col>
         {observations.length > 0 && (
           <Row className="mt-5" md={6}>
