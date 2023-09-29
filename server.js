@@ -2,7 +2,18 @@ const express = require("express");
 const app = express();
 const port = 3000; // You can change this to any port you prefer
 const fs = require("fs");
-app.use(express.json());
+const path = require("path"); // Import path module
+const bodyParser = require("body-parser");
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
+// app.use(express.json());
+
 // Middleware to serve static files from the /dist directory
 app.use(express.static(__dirname + "/dist"));
 
@@ -12,47 +23,20 @@ app.get("/", (req, res) => {
 });
 
 app.post("/save_data", (req, res) => {
-  const observations = req.body;
-  console.log("observations: ", observations);
+  console.log(req.body);
+  if (!req.body || Object.keys(req.body).length === 0) {
+    console.error("Request body is empty");
+  }
 
   const tsvHeader =
     "DATE\tNAME\tCIK\tFIRM\tSOURCE\tBLACK\tMALE\tFEMALE\tLGBT\tNONBINARY\tASIAN\tLATINX\tDIRECTORS\tNOTES\tDND_GENDER\tDND_DEMO"; // your full header here
-
-  const existingTsvData = fs.readFileSync("./dist/data.tsv", "utf8");
-  const existingLines = existingTsvData.split("\n");
-  const headerExists = existingLines[0] === tsvHeader;
-
-  const dataLines = headerExists ? existingLines.slice(1) : existingLines;
-
-  // Create a map of existing data by CIK
-  const existingMap = existingLines.reduce((map, line) => {
-    if (line !== tsvHeader) {
-      const columns = line.split("\t");
-      const cik = columns[2];
-      map[cik] = line;
-    }
-    return map;
-  }, {});
-
-  // Update or add new observations
-  observations.forEach((obs) => {
-    const line = Object.values(obs).join("\t");
-    const cik = obs.cik;
-    existingMap[cik] = line;
+  const tsvRows = req.body.map((row) => {
+    return Object.values(row).join("\t");
   });
-
-  // Generate the final TSV data string
-  const finalTsvData = Object.values(existingMap).join("\n");
-
-  const tsvOutput = `${tsvHeader}\n${finalTsvData}`;
-
-  // Write the final data to the file
-  fs.writeFile("./dist/data.tsv", tsvOutput, (err) => {
-    if (err) throw err;
-    console.log("Saved as TSV!");
-    res.status(200).send("Data saved successfully");
-  });
+  const tsv = [tsvHeader, ...tsvRows].join("\n");
+  fs.writeFileSync(path.join(__dirname, "observations.tsv"), tsv);
 });
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
