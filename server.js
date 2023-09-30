@@ -23,13 +23,13 @@ app.get("/", (req, res) => {
 });
 
 app.post("/save_data", (req, res) => {
-  console.log(req.body);
   if (!req.body || Object.keys(req.body).length === 0) {
     console.error("Request body is empty");
   }
 
   const tsvHeader =
     "DATE\tNAME\tCIK\tFIRM\tSOURCE\tBLACK\tMALE\tFEMALE\tLGBT\tNONBINARY\tASIAN\tLATINX\tDIRECTORS\tNOTES\tDND_GENDER\tDND_DEMO"; // your full header here
+
   const tsvRows = req.body.map((row) => {
     return Object.values(row).join("\t");
   });

@@ -17,18 +17,16 @@ const MissingFirmsComponent = () => {
     let fetchObservations = async () => {
       const response = await fetch("/observations.tsv");
       const text = await response.text();
-      console.log("text: ", text);
       let rows = text.split("\n");
       const header = rows[0].split("\t"); // Assuming the first row contains headers
       let observations_fetch = rows.slice(1).map((line) => {
-        const values = line.split("\t");
+        const values = line.split("\t").map((value) => value.trim());
         const observation = {};
         header.forEach((h, index) => {
           observation[h] = values[index];
         });
         return observation;
       });
-      console.log("observations_fetch: ", observations_fetch);
       setObservations(observations_fetch);
     };
 
@@ -39,8 +37,8 @@ const MissingFirmsComponent = () => {
     const saveObservations = async () => {
       if (observations.length > 0) {
         // Add this condition
+
         try {
-          console.log("observations123 ", observations);
           await axios.post("/save_data", JSON.stringify(observations), {
             headers: {
               "Content-Type": "application/json",
@@ -89,10 +87,11 @@ const MissingFirmsComponent = () => {
     )}`;
     window.open(googleSearchUrl, "_blank");
   };
+
   const handleManualIndex = (ticker) => {
     console.log("ONSERVATIONS ", observations);
-    console.log;
-    const foundIndex = observations.findIndex((obs) => obs.ticker === ticker);
+    console.log("TICKER ", ticker);
+    const foundIndex = observations.findIndex((obs) => obs.FIRM === ticker);
     if (foundIndex !== -1) {
       setCurrentObservationIndex(foundIndex);
     }
@@ -109,9 +108,9 @@ const MissingFirmsComponent = () => {
               {[1].forEach((x) => {
                 console.log("xxxxx ", observations[currentObservationIndex]);
               })}
-              <u>{observations[currentObservationIndex].name}</u> -{" "}
-              <u>{observations[currentObservationIndex].cik}</u>
-              <u>{observations[currentObservationIndex].firm}</u>
+              <u>{observations[currentObservationIndex].NAME}</u> -{" "}
+              <u>{observations[currentObservationIndex].CIK}</u>
+              <u>{observations[currentObservationIndex].FIRM}</u>
             </h3>
             <Button
               variant="primary"
