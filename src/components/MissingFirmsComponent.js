@@ -39,11 +39,16 @@ const MissingFirmsComponent = () => {
         // Add this condition
 
         try {
-          await axios.post("/save_data", JSON.stringify(observations), {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const response = await axios.post(
+            "/save_data",
+            JSON.stringify(observations),
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          console.log("RESPONSE ", response.data);
           console.log("Observations saved successfully.");
         } catch (error) {
           console.error("Error while saving observations:", error);

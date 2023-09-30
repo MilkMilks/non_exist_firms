@@ -1,14 +1,14 @@
-date	name	cik	firm	source	black	male	female	lgbt	non_binary	asian	latinx	directors	notes	DND_GENDER	DND_DEMO
-2022	ATA Creativity Global	1420529	aacg	proxy											
-2022	AMERICAN BATTERY TECHNOLOGY Co	1576873	abat	proxy											
-2022	Abcam plc	1492074	abcm	proxy											
-2022	Abacus Life, Inc.	1814287	abl	proxy											
-2022	Able View Global Inc.	1957489	ablv	proxy											
-2022	Alset Capital Acquisition Corp.	1897245	acax	proxy											
-2022	AURORA CANNABIS INC	1683541	acb	proxy											
-2022	Ace Global Business Acquisition Ltd	1844389	acba	proxy											
-2022	ProFrac Holding Corp.	1881487	acdc	proxy											
-2022	Achilles Therapeutics plc	1830749	achl	proxy											
+DATE	NAME	CIK	FIRM	SOURCE	BLACK	MALE	FEMALE	LGBT	NON_BINARY	ASIAN	LATINX	DIRECTORS	NOTES	DND_GENDER	DND_DEMO
+2022	ATA Creativity Global	1420529	aacg	proxy	1										
+2022	AMERICAN BATTERY TECHNOLOGY Co	1576873	abat	proxy			2								
+2022	Abcam plc	1492074	abcm	proxy			3								
+2022	Abacus Life, Inc.	1814287	abl	proxy				4							
+2022	Able View Global Inc.	1957489	ablv	proxy					5						
+2022	Alset Capital Acquisition Corp.	1897245	acax	proxy							6				
+2022	AURORA CANNABIS INC	1683541	acb	proxy								7			
+2022	Ace Global Business Acquisition Ltd	1844389	acba	proxy									8		
+2022	ProFrac Holding Corp.	1881487	acdc	proxy										9	
+2022	Achilles Therapeutics plc	1830749	achl	proxy											10
 2022	AMERICAN COASTAL INSURANCE Corp	1401521	acic	proxy											
 2022	AC Immune SA	1651625	aciu	proxy											
 2022	Arcellx, Inc.	1786205	aclx	proxy											

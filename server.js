@@ -28,13 +28,16 @@ app.post("/save_data", (req, res) => {
   }
 
   const tsvHeader =
-    "DATE\tNAME\tCIK\tFIRM\tSOURCE\tBLACK\tMALE\tFEMALE\tLGBT\tNONBINARY\tASIAN\tLATINX\tDIRECTORS\tNOTES\tDND_GENDER\tDND_DEMO"; // your full header here
+    "DATE\tNAME\tCIK\tFIRM\tSOURCE\tBLACK\tMALE\tFEMALE\tLGBT\tNON_BINARY\tASIAN\tLATINX\tDIRECTORS\tNOTES\tDND_GENDER\tDND_DEMO"; // your full header here
 
   const tsvRows = req.body.map((row) => {
     return Object.values(row).join("\t");
   });
+  console.log("tsvRows:", tsvRows.length);
+
   const tsv = [tsvHeader, ...tsvRows].join("\n");
   fs.writeFileSync(path.join(__dirname, "/dist/observations.tsv"), tsv);
+  res.send("TSV WRITTEN!");
 });
 
 // Start the server
